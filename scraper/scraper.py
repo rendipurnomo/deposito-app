@@ -133,7 +133,6 @@ SEED_DATA: list[dict] = [
      "bunga_pa": 6.50,  "setoran_min": 1_000_000,    "tenor": [1,3,6,12],    "lps_tipe": "bank_umum",
      "metode_buka": "App Only", "app": "Digibank",
      "keterangan": "Bunga hingga 6.5% p.a. Didukung DBS Group Asia.", "warna": "#e60026"},
-     # ─── BPR (manual update, tidak di-scrape otomatis) ───────────────
 {"id": "bpr_lestari",     "nama": "BPR Lestari",            "tipe": "BPR", "kategori": "BPR", "bunga_pa": 6.50, "setoran_min": 1_000_000, "tenor": [1,3,6,12],    "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada", "keterangan": "BPR terbesar di Bali. Fokus UMKM & properti.",         "warna": "#f97316"},
 {"id": "bpr_kcb",         "nama": "BPR KCB",                "tipe": "BPR", "kategori": "BPR", "bunga_pa": 6.00, "setoran_min":   500_000, "tenor": [1,3,6,12,24], "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada", "keterangan": "BPR Kencana Cinta Bersama. Beroperasi di Jawa Barat.", "warna": "#f97316"},
 {"id": "bpr_nusamba",     "nama": "BPR Nusamba",            "tipe": "BPR", "kategori": "BPR", "bunga_pa": 6.50, "setoran_min": 1_000_000, "tenor": [1,3,6,12,24], "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada", "keterangan": "Jaringan BPR terbesar di Indonesia. Ada di 20+ provinsi.", "warna": "#f97316"},
@@ -143,7 +142,7 @@ SEED_DATA: list[dict] = [
 {"id": "bpr_restu",       "nama": "BPR Restu Artha Makmur","tipe": "BPR", "kategori": "BPR", "bunga_pa": 6.50, "setoran_min": 2_000_000, "tenor": [3,6,12,24],   "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada", "keterangan": "BPR di Yogyakarta. Bunga kompetitif tenor 6–24 bulan.",  "warna": "#f97316"},
 {"id": "bpr_sukowati",    "nama": "BPR Sukowati Jateng",   "tipe": "BPR", "kategori": "BPR", "bunga_pa": 6.25, "setoran_min":   500_000, "tenor": [1,3,6,12],    "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada", "keterangan": "BPR milik Pemda Sragen. Melayani ASN & UMKM daerah.",   "warna": "#f97316"},
 {"id": "bpr_kota_bekasi", "nama": "BPR Kota Bekasi",       "tipe": "BPR", "kategori": "BPR", "bunga_pa": 6.00, "setoran_min": 1_000_000, "tenor": [1,3,6,12,24], "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada", "keterangan": "BPR milik Pemkot Bekasi. Fokus ASN & pelaku usaha lokal.", "warna": "#f97316"},
-{"id": "bpr_daerah_bogor","nama": "BPR Daerah Bogor",      "tipe": "BPR", "kategori": "BPR", "bunga_pa": 6.25, "setoran_min": 1_000_000, "tenor": [1,3,6,12],    "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada", "keterangan": "BPR milik Pemda Bogor. Fokus ASN & UMKM daerah Bogor.", "warna": "#f97316"},
+{"id": "bpr_daerah_bogor","nama": "BPR Daerah Bogor",      "tipe": "BPR", "kategori": "BPR", "bunga_pa": 6.25, "setoran_min": 1_000_000, "tenor": [1,3,6,12],    "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada", "keterangan": "BPR milik Pemda Bogor. Fokus ASN & UMKM daerah Bogor.", "warna": "#f97316"}
 ]
 
 # ══════════════════════════════════════════════════════════════════

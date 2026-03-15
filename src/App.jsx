@@ -621,13 +621,14 @@ function Screener({
         <h1
           style={{
             fontFamily: "Playfair Display",
-            fontSize: isMobile ? 22 : 32,
+            fontSize: isMobile ? 14 : 32,
             fontWeight: 700,
             marginBottom: 6,
+            color: "#939491",
           }}
         >
-          Buat Uang Bekerja Keras daripada Kamu — Pilih deposito dengan bunga
-          terbaik sesuai kebutuhanmu
+          Buat Uang Bekerja Lebih Keras daripada Kamu — <span style={{ color: "var(--accent)", fontWeight: 500, fontSize: isMobile ? 12 : 16 }}>Pilih deposito dengan bunga
+          terbaik sesuai kebutuhanmu</span> 
         </h1>
         <h1
           style={{
