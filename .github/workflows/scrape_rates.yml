@@ -1,0 +1,85 @@
+name: Weekly Bank Rate Scraper
+
+on:
+  schedule:
+    # Every Monday 01:00 UTC = 08:00 WIB
+    - cron: '0 1 * * 1'
+
+  # Allow manual trigger from GitHub Actions UI
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # needed to commit updated JSON
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: scraper/requirements.txt
+
+      - name: Install Python dependencies
+        run: pip install -r scraper/requirements.txt
+
+      # Cache Playwright browsers between runs to save ~5 minutes
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ hashFiles('scraper/requirements.txt') }}
+
+      - name: Install Playwright Chromium + system deps
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: playwright install chromium --with-deps
+
+      - name: Install Playwright system deps only (cache hit)
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: playwright install-deps chromium
+
+      - name: Run scraper
+        run: python scraper/scraper.py
+        timeout-minutes: 25   # hard cap — should finish in ~10 min
+
+      - name: Show scrape results
+        run: |
+          echo "=== bank_rates.json preview ==="
+          python -c "
+          import json
+          with open('scraper/bank_rates.json') as f:
+              d = json.load(f)
+          print(f'Generated: {d[\"generated_at\"]}')
+          print(f'Stats:     {d[\"stats\"]}')
+          for b in d['banks']:
+              icon = '✓' if b['scrape_status'] == 'scraped' else '✗'
+              print(f'  {icon} {b[\"nama\"]:30} {b[\"bunga_pa\"]:5.2f}%  [{b[\"scrape_status\"]}]')
+          "
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git diff --quiet scraper/bank_rates.json \
+            && echo "changed=false" >> $GITHUB_OUTPUT \
+            || echo "changed=true"  >> $GITHUB_OUTPUT
+
+      - name: Commit and push updated rates
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scraper/bank_rates.json
+          git commit -m "data: update bank rates $(date +'%Y-%m-%d')"
+          git push
+
+      - name: No changes detected
+        if: steps.changes.outputs.changed == 'false'
+        run: echo "All rates unchanged this week — no commit needed."
