@@ -5,11 +5,12 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
    CONFIG — Update this URL after pushing to your GitHub repo
    Format: https://raw.githubusercontent.com/USERNAME/REPO/main/scraper/bank_rates.json
 ═══════════════════════════════════════════════════════════════════ */
-const RATES_JSON_URL = 'https://raw.githubusercontent.com/rendipurnomo/deposito-app/main/scraper/bank_rates.json'  // relative path when hosted on same repo via Pages
+const RATES_JSON_URL = '/bank_rates.json'  // relative path when hosted on same repo via Pages
 
 /* ═══════════════════════════════════════════════════════════════════
    HELPERS
-═════════════════════════════════════════
+═══════════════════════════════════════════════════════════════════ */
+const idr = (v, compact = false) => {
   const n = Math.round(v)
   if (compact) {
     if (n >= 1e12) return 'Rp ' + (n / 1e12).toFixed(2) + 'T'
