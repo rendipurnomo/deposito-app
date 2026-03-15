@@ -231,24 +231,25 @@ function InstallBanner() {
 function Navbar({ activeTab, setActiveTab }) {
   const { isMobile } = useBreakpoint()
   return (
-    <nav style={{ position: 'sticky', top: 0, zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 1rem', height: 56, background: 'rgba(10,14,13,0.95)', backdropFilter: 'blur(16px)', borderBottom: '1px solid var(--border)' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <div style={{ width: 28, height: 28, borderRadius: 8, background: 'var(--accent-muted)', border: '1px solid var(--accent-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-          </svg>
-        </div>
-        <span style={{ fontFamily: 'Playfair Display', fontWeight: 700, fontSize: isMobile ? 15 : 17, letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
-          Deposito<span style={{ color: 'var(--accent)' }}>Plus</span>
-        </span>
-      </div>
-      <div style={{ display: 'flex', gap: 3, background: 'var(--bg-input)', borderRadius: 9, padding: 3, border: '1px solid var(--border)' }}>
+    <nav style={{ position: 'sticky', top: 0, zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 1rem', height: 66, background: 'rgba(10,14,13,0.95)', backdropFilter: 'blur(16px)', borderBottom: '1px solid var(--border)' }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+  <img
+    src="/logo.png"
+    alt="DepositoPlus"
+    style={{
+      height: isMobile ? 120 : 58,
+      width: 'auto',
+      objectFit: 'contain',
+    }}
+  />
+</div>
+      {/* <div style={{ display: 'flex', gap: 3, background: 'var(--bg-input)', borderRadius: 9, padding: 3, border: '1px solid var(--border)' }}>
         {[['screener','Screener'],['kalkulator','Kalkulator']].map(([tab, label]) => (
           <button key={tab} onClick={() => setActiveTab(tab)} style={{ padding: isMobile ? '6px 12px' : '7px 18px', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: isMobile ? 12 : 13, fontWeight: 500, transition: 'all 0.2s', background: activeTab === tab ? 'var(--accent)' : 'transparent', color: activeTab === tab ? '#0a0e0d' : 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
             {label}
           </button>
         ))}
-      </div>
+      </div> */}
     </nav>
   )
 }
