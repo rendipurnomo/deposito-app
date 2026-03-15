@@ -7,6 +7,23 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 ═══════════════════════════════════════════════════════════════════ */
 const RATES_JSON_URL = '/bank_rates.json'  // relative path when hosted on same repo via Pages
 
+const BANK_LINKS = {
+  bri:       { web: 'https://bri.co.id',            ios: 'https://apps.apple.com/id/app/brimo/id1169536375',        android: 'https://play.google.com/store/apps/details?id=com.bri.brimo' },
+  bca:       { web: 'https://mybca.bca.co.id',       ios: 'https://apps.apple.com/id/app/mybca/id1439966261',        android: 'https://play.google.com/store/apps/details?id=com.bca' },
+  mandiri:   { web: 'https://livin.mandiri',          ios: 'https://apps.apple.com/id/app/livin-by-mandiri/id1570884921', android: 'https://play.google.com/store/apps/details?id=com.bankmandiri.livin' },
+  bni:       { web: 'https://www.bni.co.id',         ios: 'https://apps.apple.com/id/app/bni-mobile-banking/id568062340', android: 'https://play.google.com/store/apps/details?id=src.com.bni' },
+  seabank:   { web: 'https://www.seabank.co.id',     ios: 'https://apps.apple.com/id/app/seabank/id1559447666',     android: 'https://play.google.com/store/apps/details?id=com.seamoney.seabank' },
+  bankjago:  { web: 'https://www.jago.com',          ios: 'https://apps.apple.com/id/app/bank-jago/id1493180931',   android: 'https://play.google.com/store/apps/details?id=com.jagomobile' },
+  blu:       { web: 'https://blubybcadigital.id',    ios: 'https://apps.apple.com/id/app/blu-by-bca-digital/id1557049665', android: 'https://play.google.com/store/apps/details?id=id.co.bcadigital.blu' },
+  neobank:   { web: 'https://www.neobank.id',        ios: 'https://apps.apple.com/id/app/neobank/id1542859048',     android: 'https://play.google.com/store/apps/details?id=id.co.neo.mobile' },
+  krom:      { web: 'https://www.krombank.id',       ios: 'https://apps.apple.com/id/app/krom-bank/id6444120082',   android: 'https://play.google.com/store/apps/details?id=id.krom.mobile' },
+  allo:      { web: 'https://www.allobank.com',      ios: 'https://apps.apple.com/id/app/allo-bank/id1581696274',   android: 'https://play.google.com/store/apps/details?id=com.allo.allobank' },
+  amar:      { web: 'https://www.amarbank.co.id',    ios: 'https://apps.apple.com/id/app/senyumku/id1439934139',    android: 'https://play.google.com/store/apps/details?id=id.co.amarbank.senyumku' },
+  superbank: { web: 'https://www.superbank.id',      ios: 'https://apps.apple.com/id/app/superbank/id6450899626',   android: 'https://play.google.com/store/apps/details?id=id.co.superbank' },
+  jenius:    { web: 'https://www.jenius.com',        ios: 'https://apps.apple.com/id/app/jenius/id1087210607',      android: 'https://play.google.com/store/apps/details?id=com.btpn.dc' },
+  digibank:  { web: 'https://www.dbs.id/digibank',  ios: 'https://apps.apple.com/id/app/digibank-by-dbs/id1059566836', android: 'https://play.google.com/store/apps/details?id=com.dbs.id.digibankindonesia' },
+}
+
 /* ═══════════════════════════════════════════════════════════════════
    HELPERS
 ═══════════════════════════════════════════════════════════════════ */
@@ -131,12 +148,79 @@ function LpsBadge({ bunga_pa, lps_limit }) {
   )
 }
 
+function BankLinkButtons({ bankId }) {
+  const links = BANK_LINKS[bankId]
+  if (!links) return null
+  const btnStyle = (color) => ({
+    display: 'inline-flex', alignItems: 'center', gap: 5,
+    padding: '7px 11px', borderRadius: 8, border: `1px solid ${color}33`,
+    background: color + '11', color: color,
+    fontSize: 11, fontWeight: 600, cursor: 'pointer',
+    textDecoration: 'none', flex: 1, justifyContent: 'center',
+  })
+  return (
+    <div style={{ display: 'flex', gap: 7, marginTop: 8 }}>
+      <a href={links.web} target="_blank" rel="noopener noreferrer" style={btnStyle('#7d9e8c')}>
+        🌐 Website
+      </a>
+      <a href={links.android} target="_blank" rel="noopener noreferrer" style={btnStyle('#3ddc84')}>
+        ▶ Android
+      </a>
+      <a href={links.ios} target="_blank" rel="noopener noreferrer" style={btnStyle('#0071e3')}>
+         iOS
+      </a>
+    </div>
+  )
+}
+
 function Spinner() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '80px 20px', gap: 16 }}>
       <div style={{ width: 36, height: 36, border: '3px solid var(--border-strong)', borderTopColor: 'var(--accent)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
       <p style={{ color: 'var(--text-secondary)', fontSize: 14 }}>Memuat data bank...</p>
       <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
+    </div>
+  )
+}
+
+function InstallBanner() {
+  const [prompt, setPrompt] = useState(null)
+  const [show, setShow]     = useState(false)
+
+  useEffect(() => {
+    const handler = e => { e.preventDefault(); setPrompt(e); setShow(true) }
+    window.addEventListener('beforeinstallprompt', handler)
+    return () => window.removeEventListener('beforeinstallprompt', handler)
+  }, [])
+
+  if (!show) return null
+
+  return (
+    <div style={{
+      position: 'fixed', bottom: 72, left: 12, right: 12, zIndex: 80,
+      background: '#161d1a', border: '1px solid var(--accent-border)',
+      borderRadius: 14, padding: '14px 16px',
+      display: 'flex', alignItems: 'center', gap: 12,
+      boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
+      animation: 'fadeUp 0.3s ease',
+    }}>
+      <div style={{ width: 36, height: 36, borderRadius: 9, background: 'var(--accent-muted)', border: '1px solid var(--accent-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+      </div>
+      <div style={{ flex: 1 }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 2 }}>Install DepositoPlus</div>
+        <div style={{ fontSize: 11, color: 'var(--text-secondary)' }}>Akses lebih cepat, bisa offline</div>
+      </div>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <button onClick={() => setShow(false)} style={{ padding: '6px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-muted)', fontSize: 12, cursor: 'pointer' }}>
+          Nanti
+        </button>
+        <button onClick={() => { prompt?.prompt(); setShow(false) }} style={{ padding: '6px 14px', borderRadius: 8, border: 'none', background: 'var(--accent)', color: '#0a0e0d', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
+          Install
+        </button>
+      </div>
     </div>
   )
 }
@@ -337,6 +421,7 @@ function Screener({ bankData, lpsLimit, generatedAt, onSelectBank, selectedId })
                       <div><span style={{ color: 'var(--text-secondary)' }}>App:</span> {bank.app}</div>
                       {bank.scrape_status && <div><span style={{ color: 'var(--text-secondary)' }}>Data:</span> {bank.scrape_status === 'scraped' ? '🟢 Auto-scraped' : '🟡 Manual'}</div>}
                     </div>
+                    <BankLinkButtons bankId={bank.id} />
                   </div>
                 )}
 
@@ -434,6 +519,55 @@ const COL_TIPS = {
   'Bunga Ini': 'Bunga bulan ini — NAIK terus karena saldo makin besar.',
   'Saldo': 'Saldo setelah bunga + setoran.',
   'ROI': 'Total bunga ÷ total modal × 100%. NAIK terus karena compounding.',
+}
+
+function MobileTableRow({ row, isLast, isFirst, firstInterest }) {
+  const [open, setOpen] = useState(false)
+  const isYearly = row.month % 12 === 0 && !isLast
+  const growthVsFirst = firstInterest > 0 ? ((row.interestThisMonth / firstInterest - 1) * 100) : 0
+
+  return (
+    <div style={{
+      background: isLast ? 'rgba(45,206,137,0.05)' : 'var(--bg-card)',
+      border: `1px solid ${isLast ? 'var(--accent-border)' : 'var(--border)'}`,
+      borderRadius: 12, marginBottom: 8, overflow: 'hidden',
+    }}>
+      <button onClick={() => setOpen(o => !o)} style={{ width: '100%', padding: '12px 14px', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+          {isLast && <span style={{ fontSize: 9, background: 'var(--accent)', color: '#0a0e0d', padding: '2px 5px', borderRadius: 99, fontWeight: 700 }}>AKHIR</span>}
+          {isYearly && <span style={{ fontSize: 9, background: 'var(--gold-dim)', color: 'var(--gold)', padding: '2px 5px', borderRadius: 99 }}>{row.month/12}thn</span>}
+          <span style={{ fontSize: 13, fontWeight: 600, color: isLast ? 'var(--accent)' : 'var(--text-primary)' }}>Bln {row.month}</span>
+        </div>
+        <div style={{ flex: 1, textAlign: 'center' }}>
+          <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Saldo</div>
+          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>{idr(row.balance, true)}</div>
+        </div>
+        <div style={{ textAlign: 'right', flexShrink: 0 }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--accent)' }}>{pct(row.roiCumulative, 1)}</div>
+          <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>ROI</div>
+        </div>
+        <span style={{ fontSize: 10, color: 'var(--text-muted)', marginLeft: 4 }}>{open ? '▲' : '▼'}</span>
+      </button>
+      {open && (
+        <div style={{ padding: '0 14px 14px', borderTop: '1px solid var(--border)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 16px', paddingTop: 12 }}>
+            {[
+              { label: 'Setoran', value: idr(row.setoran, true) },
+              { label: 'Bunga bulan ini', value: idr(row.interestThisMonth, true), accent: true, sub: !isFirst ? `+${growthVsFirst.toFixed(0)}% vs bln 1` : null },
+              { label: 'Total modal', value: idr(row.totalContrib, true) },
+              { label: 'Total bunga', value: idr(row.cumInterest, true), accent: true },
+            ].map((item, i) => (
+              <div key={i}>
+                <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 2 }}>{item.label}</div>
+                <div style={{ fontSize: 13, fontWeight: 500, color: item.accent ? '#2dce89' : 'var(--text-primary)' }}>{item.value}</div>
+                {item.sub && <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>{item.sub}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
 }
 
 function Kalkulator({ selectedBank, onGoToScreener }) {
@@ -614,63 +748,39 @@ function Kalkulator({ selectedBank, onGoToScreener }) {
             </div>
           </div>
 
-          {/* Table */}
-          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 18, overflow: 'hidden' }}>
-            <div style={{ padding: isMobile ? '14px 14px 10px' : '18px 18px 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
-              <div>
-                <h2 style={{ fontFamily: 'Playfair Display', fontSize: 17, fontWeight: 600, marginBottom: 2 }}>Rincian per Bulan</h2>
-                <p style={{ fontSize: 11, color: 'var(--text-muted)' }}>Hover <span style={{ color: 'var(--accent)' }}>?</span> di header untuk penjelasan</p>
-              </div>
-              <span style={{ fontSize: 10, color: 'var(--accent)', background: 'var(--accent-muted)', padding: '3px 10px', borderRadius: 99, border: '1px solid var(--accent-border)', letterSpacing: '0.04em' }}>
-                {duration} BULAN
-              </span>
-            </div>
-            <div style={{ overflowX: 'auto', maxHeight: 400, overflowY: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 460 }}>
-                <thead>
-                  <tr style={{ background: 'var(--bg-surface)', position: 'sticky', top: 0, zIndex: 1 }}>
-                    {Object.keys(COL_TIPS).map(h => (
-                      <th key={h} style={{ padding: '9px 12px', fontSize: 10, fontWeight: 500, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', textAlign: h==='Periode'?'left':'right', borderBottom: '1px solid var(--border)', whiteSpace: 'nowrap' }}>
-                        <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: h==='Periode'?'flex-start':'flex-end', gap: 2 }}>
-                          {h}<InfoTip text={COL_TIPS[h]} />
-                        </span>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {rows.map((row, i) => {
-                    const isLast = i === rows.length - 1
-                    const isYearly = row.month % 12 === 0
-                    const growthVsFirst = rows[0].interestThisMonth > 0 ? ((row.interestThisMonth / rows[0].interestThisMonth - 1) * 100) : 0
-                    return (
-                      <tr key={row.month} style={{ background: isLast ? 'rgba(45,206,137,0.05)' : 'transparent', borderBottom: `1px solid ${isYearly&&!isLast?'rgba(255,255,255,0.1)':'var(--border)'}` }}
-                        onMouseEnter={e => { if (!isLast) e.currentTarget.style.background='var(--bg-hover)' }}
-                        onMouseLeave={e => { e.currentTarget.style.background=isLast?'rgba(45,206,137,0.05)':'transparent' }}>
-                        <td style={{ padding: '8px 12px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                            {isLast && <span style={{ fontSize: 9, background: 'var(--accent)', color: '#0a0e0d', padding: '2px 5px', borderRadius: 99, fontWeight: 700 }}>AKHIR</span>}
-                            {isYearly&&!isLast && <span style={{ fontSize: 9, background: 'var(--gold-dim)', color: 'var(--gold)', padding: '2px 5px', borderRadius: 99 }}>{row.month/12}thn</span>}
-                            <span style={{ fontSize: 12, color: isLast?'var(--accent)':'var(--text-secondary)' }}>Bln {row.month}</span>
-                          </div>
-                        </td>
-                        <td style={{ padding: '8px 12px', fontSize: 12, color: 'var(--text-primary)', textAlign: 'right' }}>{idr(row.setoran, true)}</td>
-                        <td style={{ padding: '8px 12px', textAlign: 'right' }}>
-                          <div style={{ fontSize: 12, color: '#2dce89', fontWeight: 500 }}>{idr(row.interestThisMonth, true)}</div>
-                          {i > 0 && <div style={{ fontSize: 9, color: 'var(--text-muted)' }}>+{growthVsFirst.toFixed(0)}% vs bln 1</div>}
-                        </td>
-                        <td style={{ padding: '8px 12px', fontSize: 12, color: 'var(--text-primary)', textAlign: 'right', fontWeight: isLast?600:400 }}>{idr(row.balance, true)}</td>
-                        <td style={{ padding: '8px 12px', textAlign: 'right' }}>
-                          <div style={{ fontSize: 12, color: 'var(--accent)', fontWeight: 500 }}>{pct(row.roiCumulative, 1)}</div>
-                          <div style={{ fontSize: 9, color: 'var(--text-muted)' }}>{idr(row.cumInterest, true)}</div>
-                        </td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          {/* Table — responsive */}
+<div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 18, overflow: 'hidden' }}>
+  <div style={{ padding: isMobile ? '14px 14px 10px' : '18px 18px 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+    <div>
+      <h2 style={{ fontFamily: 'Playfair Display', fontSize: 17, fontWeight: 600, marginBottom: 2 }}>Rincian per Bulan</h2>
+      <p style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+        {isMobile ? 'Tap baris untuk detail lengkap' : 'Hover ? di header untuk penjelasan'}
+      </p>
+    </div>
+    <span style={{ fontSize: 10, color: 'var(--accent)', background: 'var(--accent-muted)', padding: '3px 10px', borderRadius: 99, border: '1px solid var(--accent-border)' }}>
+      {duration} BULAN
+    </span>
+  </div>
+
+  {isMobile ? (
+    <div style={{ padding: '0 12px 12px', maxHeight: 480, overflowY: 'auto' }}>
+      {rows.map((row, i) => (
+        <MobileTableRow
+          key={row.month}
+          row={row}
+          isLast={i === rows.length - 1}
+          isFirst={i === 0}
+          firstInterest={rows[0].interestThisMonth}
+        />
+      ))}
+    </div>
+  ) : (
+    // tabel desktop yang sudah ada — tidak perlu diubah
+    <div style={{ overflowX: 'auto', maxHeight: 440, overflowY: 'auto' }}>
+      ...tabel lama Anda di sini...
+    </div>
+  )}
+</div>
 
         </div>
       </div>
@@ -714,6 +824,15 @@ export default function App() {
   const lpsLimit  = data?.lps_bank_umum ?? 3.50
   const genAt     = data?.generated_at  ?? null
 
+  // Tambahkan di dalam komponen App, sebelum return
+useEffect(() => {
+  const titles = {
+    screener:   'Screener Deposito Indonesia — DepositoPlus',
+    kalkulator: 'Kalkulator Compound Interest — DepositoPlus',
+  }
+  document.title = titles[activeTab] || 'DepositoPlus'
+}, [activeTab])
+
   return (
     <>
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -733,7 +852,7 @@ export default function App() {
       ) : (
         <Kalkulator selectedBank={selectedBank} onGoToScreener={() => setActiveTab('screener')} />
       )}
-
+      <InstallBanner />
       <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
 
       <footer style={{ borderTop: '1px solid var(--border)', padding: isMobile ? '20px 16px' : '24px 2rem', textAlign: 'center', paddingBottom: isMobile ? '80px' : undefined }}>
