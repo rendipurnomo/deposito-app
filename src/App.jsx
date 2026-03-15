@@ -24,6 +24,9 @@ const BANK_LINKS = {
   digibank:  { web: 'https://www.dbs.id/digibank',  ios: 'https://apps.apple.com/id/app/digibank-by-dbs/id1059566836', android: 'https://play.google.com/store/apps/details?id=com.dbs.id.digibankindonesia' },
 }
 
+const LPS_LIMIT_BANK_UMUM = 3.50
+const LPS_LIMIT_BPR       = 6.75
+
 /* ═══════════════════════════════════════════════════════════════════
    HELPERS
 ═══════════════════════════════════════════════════════════════════ */
@@ -142,8 +145,27 @@ function InfoTip({ text }) {
 function LpsBadge({ bunga_pa, lps_limit }) {
   const safe = bunga_pa <= lps_limit
   return (
-    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10, padding: '3px 8px', borderRadius: 99, fontWeight: 600, background: safe ? 'rgba(45,206,137,0.12)' : 'rgba(255,180,0,0.12)', color: safe ? '#2dce89' : '#f7c600', border: `1px solid ${safe ? 'rgba(45,206,137,0.3)' : 'rgba(247,198,0,0.3)'}` }}>
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 4,
+      fontSize: 10, padding: '3px 8px', borderRadius: 99, fontWeight: 600,
+      background: safe ? 'rgba(45,206,137,0.12)' : 'rgba(255,180,0,0.12)',
+      color: safe ? '#2dce89' : '#f7c600',
+      border: `1px solid ${safe ? 'rgba(45,206,137,0.3)' : 'rgba(247,198,0,0.3)'}`,
+    }}>
       {safe ? '✓ LPS Terjamin' : '⚠ Di atas LPS'}
+    </span>
+  )
+}
+
+function BprBadge() {
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 4,
+      fontSize: 10, padding: '3px 8px', borderRadius: 99, fontWeight: 600,
+      background: 'rgba(249,115,22,0.12)', color: '#f97316',
+      border: '1px solid rgba(249,115,22,0.3)',
+    }}>
+      BPR
     </span>
   )
 }
@@ -304,7 +326,29 @@ function Screener({ bankData, lpsLimit, generatedAt, onSelectBank, selectedId })
       <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, padding: '14px 16px', marginBottom: 20 }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'flex-start' }}>
           <div>
-            <div style={{ fontSize: 10, color: 'var(--text-muted)', letterSpacing: '0.07em', marginBottom: 4 }}>BATAS PENJAMINAN LPS — BANK UMUM</div>
+            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, padding: '14px 16px', marginBottom: 20 }}>
+  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, alignItems: 'flex-start' }}>
+    {/* Bank Umum */}
+    <div>
+      <div style={{ fontSize: 10, color: 'var(--text-muted)', letterSpacing: '0.07em', marginBottom: 4 }}>BATAS LPS — BANK UMUM</div>
+      <div style={{ fontFamily: 'Playfair Display', fontSize: 22, fontWeight: 700, color: '#2dce89' }}>{lpsLimit}% p.a</div>
+      <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Maks Rp2 miliar / nasabah / bank</div>
+    </div>
+    <div style={{ width: 1, background: 'var(--border)', alignSelf: 'stretch' }} />
+    {/* BPR */}
+    <div>
+      <div style={{ fontSize: 10, color: 'var(--text-muted)', letterSpacing: '0.07em', marginBottom: 4 }}>BATAS LPS — BPR</div>
+      <div style={{ fontFamily: 'Playfair Display', fontSize: 22, fontWeight: 700, color: '#f97316' }}>6.75% p.a</div>
+      <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Maks Rp2 miliar / nasabah / BPR</div>
+    </div>
+    <div style={{ width: 1, background: 'var(--border)', alignSelf: 'stretch' }} />
+    <div style={{ flex: 1, minWidth: 200, fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.65 }}>
+      <span style={{ color: '#2dce89', fontWeight: 600 }}>✓ Terjamin</span> — bunga di bawah batas LPS: pokok + bunga dijamin.{' '}
+      <span style={{ color: '#f7c600', fontWeight: 600 }}>⚠ Di atas LPS</span> — dana tidak dijamin LPS.{' '}
+      <span style={{ color: '#f97316', fontWeight: 600 }}>BPR</span> — Bank Perkreditan Rakyat, batas LPS lebih tinggi namun jangkauan terbatas per daerah.
+    </div>
+  </div>
+</div>
             <div style={{ fontFamily: 'Playfair Display', fontSize: 22, fontWeight: 700, color: '#2dce89' }}>{lpsLimit}% p.a</div>
             <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Maks Rp2 miliar / nasabah / bank</div>
           </div>
@@ -322,9 +366,16 @@ function Screener({ bankData, lpsLimit, generatedAt, onSelectBank, selectedId })
         {/* Row 1 */}
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
           <span style={{ fontSize: 11, color: 'var(--text-muted)', whiteSpace: 'nowrap', minWidth: 40 }}>Tipe:</span>
-          {['Semua','Konvensional','Digital'].map(t => (
-            <button key={t} onClick={() => setFilterTipe(t)} style={{ padding: '5px 12px', borderRadius: 8, border: '1px solid var(--border)', cursor: 'pointer', fontSize: 12, transition: 'all 0.15s', background: filterTipe === t ? 'var(--accent)' : 'var(--bg-input)', color: filterTipe === t ? '#0a0e0d' : 'var(--text-secondary)', fontWeight: filterTipe === t ? 600 : 400 }}>{t}</button>
-          ))}
+          {['Semua','Konvensional','Digital','BPR'].map(t => (
+  <button key={t} onClick={() => setFilterTipe(t)} style={{
+    padding: '5px 12px', borderRadius: 8, border: '1px solid var(--border)',
+    cursor: 'pointer', fontSize: 12,
+    background: filterTipe === t ? (t === 'BPR' ? '#f9731620' : 'var(--accent)') : 'var(--bg-input)',
+    color: filterTipe === t ? (t === 'BPR' ? '#f97316' : '#0a0e0d') : 'var(--text-secondary)',
+    fontWeight: filterTipe === t ? 600 : 400,
+    borderColor: filterTipe === t && t === 'BPR' ? 'rgba(249,115,22,0.4)' : undefined,
+  }}>{t}</button>
+))}
         </div>
         {/* Row 2 */}
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
@@ -375,8 +426,12 @@ function Screener({ bankData, lpsLimit, generatedAt, onSelectBank, selectedId })
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontWeight: 600, fontSize: 13, color: 'var(--text-primary)', lineHeight: 1.3, marginBottom: 4 }}>{bank.nama}</div>
                     <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', alignItems: 'center' }}>
-                      <LpsBadge bunga_pa={bank.bunga_pa} lps_limit={lpsLimit} />
+                      <LpsBadge
+  bunga_pa={bank.bunga_pa}
+  lps_limit={bank.lps_tipe === 'bpr' ? 6.75 : lpsLimit}
+/>
                       {bank.kategori === 'BUMN' && <span style={{ fontSize: 10, padding: '2px 7px', borderRadius: 99, background: 'rgba(55,138,221,0.12)', color: '#378add', border: '1px solid rgba(55,138,221,0.3)' }}>BUMN</span>}
+                      {bank.tipe === 'BPR' && <BprBadge />}
                       {rank !== null && rank < 3 && <span style={{ fontSize: 10, padding: '2px 6px', borderRadius: 99, background: ['rgba(201,168,76,0.2)','rgba(158,158,158,0.15)','rgba(205,127,50,0.15)'][rank], color: ['#c9a84c','#9e9e9e','#cd7f32'][rank], border: '1px solid currentColor', opacity: 0.9 }}>#{rank+1}</span>}
                     </div>
                   </div>
@@ -655,7 +710,10 @@ function Kalkulator({ selectedBank, onGoToScreener }) {
                 <span style={{ color: 'var(--accent)' }}>{selectedBank.nama}</span> — {selectedBank.bunga_pa}% p.a = {(selectedBank.bunga_pa/12).toFixed(3)}%/bln
               </div>
               <div style={{ display: 'flex', gap: 6, marginTop: 2, flexWrap: 'wrap' }}>
-                <LpsBadge bunga_pa={selectedBank.bunga_pa} lps_limit={3.5} />
+                <LpsBadge
+  bunga_pa={selectedBank.bunga_pa}
+  lps_limit={selectedBank.lps_tipe === 'bpr' ? 6.75 : 3.5}
+/>
                 <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{selectedBank.app}</span>
               </div>
             </div>

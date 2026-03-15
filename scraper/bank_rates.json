@@ -2,7 +2,7 @@
   "generated_at": "2026-03-15T08:00:00+07:00",
   "lps_bank_umum": 3.50,
   "lps_bpr": 6.75,
-  "stats": { "scraped": 0, "fallback": 14, "changed": 0 },
+  "stats": { "scraped": 0, "fallback": 24, "changed": 0 },
   "banks": [
     { "id": "bri", "nama": "Bank BRI", "tipe": "Konvensional", "kategori": "BUMN", "bunga_pa": 3.00, "setoran_min": 1000000, "tenor": [1,3,6,12,24], "lps_tipe": "bank_umum", "metode_buka": "App & Cabang", "app": "BRImo", "keterangan": "Bunga 3.00% berlaku tenor 1 & 3 bln. Buka via BRImo min Rp1jt, cabang min Rp10jt.", "warna": "#1a7dd4", "scrape_status": "manual", "last_updated": "2026-03-15T08:00:00+07:00" },
     { "id": "bca", "nama": "Bank BCA", "tipe": "Konvensional", "kategori": "Swasta Besar", "bunga_pa": 2.50, "setoran_min": 8000000, "tenor": [1,3,6,12], "lps_tipe": "bank_umum", "metode_buka": "App & Cabang", "app": "myBCA", "keterangan": "Bunga 2.50% untuk tenor 1 bln. Reputasi sangat kuat, jaringan luas.", "warna": "#005baa", "scrape_status": "manual", "last_updated": "2026-03-15T08:00:00+07:00" },
@@ -18,5 +18,76 @@
     { "id": "superbank", "nama": "Superbank", "tipe": "Digital", "kategori": "Bank Digital", "bunga_pa": 7.50, "setoran_min": 500000, "tenor": [1,3,6,12], "lps_tipe": "bank_umum", "metode_buka": "App Only", "app": "Superbank", "keterangan": "Kolaborasi Grab & Emtek. Bunga hingga 7.5% p.a.", "warna": "#00b4d8", "scrape_status": "manual", "last_updated": "2026-03-15T08:00:00+07:00" },
     { "id": "jenius", "nama": "Jenius (BTPN)", "tipe": "Digital", "kategori": "Bank Digital", "bunga_pa": 4.75, "setoran_min": 1000000, "tenor": [1,3,6,12], "lps_tipe": "bank_umum", "metode_buka": "App Only", "app": "Jenius", "keterangan": "Bunga 4.75% p.a via Maxi Saver. Pelopor bank digital Indonesia.", "warna": "#11a7d9", "scrape_status": "manual", "last_updated": "2026-03-15T08:00:00+07:00" },
     { "id": "digibank", "nama": "Digibank (DBS)", "tipe": "Digital", "kategori": "Bank Digital", "bunga_pa": 6.50, "setoran_min": 1000000, "tenor": [1,3,6,12], "lps_tipe": "bank_umum", "metode_buka": "App Only", "app": "Digibank", "keterangan": "Bunga hingga 6.5% p.a. Didukung DBS Group Asia.", "warna": "#e60026", "scrape_status": "manual", "last_updated": "2026-03-15T08:00:00+07:00" }
+    ,
+{
+  "id": "bpr_lestari", "nama": "BPR Lestari", "tipe": "BPR", "kategori": "BPR",
+  "bunga_pa": 6.50, "setoran_min": 1000000, "tenor": [1,3,6,12],
+  "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada",
+  "keterangan": "BPR terbesar di Bali. Fokus UMKM & properti. Reputasi sangat baik di regional Bali.",
+  "warna": "#f97316", "scrape_status": "manual", "last_updated": "2026-03-16T08:00:00+07:00"
+},
+{
+  "id": "bpr_kcb", "nama": "BPR KCB", "tipe": "BPR", "kategori": "BPR",
+  "bunga_pa": 6.00, "setoran_min": 500000, "tenor": [1,3,6,12,24],
+  "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada",
+  "keterangan": "BPR Kencana Cinta Bersama. Beroperasi di Jawa Barat. Bunga kompetitif untuk tenor panjang.",
+  "warna": "#f97316", "scrape_status": "manual", "last_updated": "2026-03-16T08:00:00+07:00"
+},
+{
+  "id": "bpr_daerah_bogor", "nama": "BPR Daerah Bogor", "tipe": "BPR", "kategori": "BPR",
+  "bunga_pa": 6.25, "setoran_min": 1000000, "tenor": [1,3,6,12],
+  "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada",
+  "keterangan": "BPR milik Pemda Bogor. Fokus nasabah ASN dan UMKM daerah Bogor.",
+  "warna": "#f97316", "scrape_status": "manual", "last_updated": "2026-03-16T08:00:00+07:00"
+},
+{
+  "id": "bpr_artha_karya", "nama": "BPR Artha Karya Utama", "tipe": "BPR", "kategori": "BPR",
+  "bunga_pa": 6.75, "setoran_min": 500000, "tenor": [1,3,6,12],
+  "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada",
+  "keterangan": "Bunga deposito hingga 6.75% p.a — tepat di batas penjaminan LPS BPR. Beroperasi di Jawa Timur.",
+  "warna": "#f97316", "scrape_status": "manual", "last_updated": "2026-03-16T08:00:00+07:00"
+},
+{
+  "id": "bpr_nusamba", "nama": "BPR Nusamba", "tipe": "BPR", "kategori": "BPR",
+  "bunga_pa": 6.50, "setoran_min": 1000000, "tenor": [1,3,6,12,24],
+  "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada",
+  "keterangan": "Jaringan BPR terbesar di Indonesia. Ada di 20+ provinsi. Didukung Koperasi Nusantara.",
+  "warna": "#f97316", "scrape_status": "manual", "last_updated": "2026-03-16T08:00:00+07:00"
+},
+{
+  "id": "bpr_bkk_jateng", "nama": "BPR BKK Jawa Tengah", "tipe": "BPR", "kategori": "BPR",
+  "bunga_pa": 6.00, "setoran_min": 500000, "tenor": [1,3,6,12],
+  "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada",
+  "keterangan": "BPR milik Pemprov Jawa Tengah. Jaringan luas di seluruh Jateng. Fokus UMKM lokal.",
+  "warna": "#f97316", "scrape_status": "manual", "last_updated": "2026-03-16T08:00:00+07:00"
+},
+{
+  "id": "bpr_restu", "nama": "BPR Restu Artha Makmur", "tipe": "BPR", "kategori": "BPR",
+  "bunga_pa": 6.50, "setoran_min": 2000000, "tenor": [3,6,12,24],
+  "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada",
+  "keterangan": "BPR di Yogyakarta. Bunga kompetitif untuk tenor 6–24 bulan. Fokus nasabah perorangan.",
+  "warna": "#f97316", "scrape_status": "manual", "last_updated": "2026-03-16T08:00:00+07:00"
+},
+{
+  "id": "bpr_pasar_umum", "nama": "BPR Pasar Umum", "tipe": "BPR", "kategori": "BPR",
+  "bunga_pa": 6.75, "setoran_min": 1000000, "tenor": [1,3,6,12],
+  "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada",
+  "keterangan": "BPR berbasis di Bali. Bunga maksimal sesuai batas LPS BPR. Fokus pedagang pasar & UMKM.",
+  "warna": "#f97316", "scrape_status": "manual", "last_updated": "2026-03-16T08:00:00+07:00"
+},
+{
+  "id": "bpr_sukowati", "nama": "BPR Sukowati Jateng", "tipe": "BPR", "kategori": "BPR",
+  "bunga_pa": 6.25, "setoran_min": 500000, "tenor": [1,3,6,12],
+  "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada",
+  "keterangan": "BPR milik Pemda Sragen, Jawa Tengah. Melayani ASN, pensiunan, dan UMKM daerah.",
+  "warna": "#f97316", "scrape_status": "manual", "last_updated": "2026-03-16T08:00:00+07:00"
+},
+{
+  "id": "bpr_kota_bekasi", "nama": "BPR Kota Bekasi", "tipe": "BPR", "kategori": "BPR",
+  "bunga_pa": 6.00, "setoran_min": 1000000, "tenor": [1,3,6,12,24],
+  "lps_tipe": "bpr", "metode_buka": "Cabang", "app": "Tidak ada",
+  "keterangan": "BPR milik Pemkot Bekasi. Jaringan di Bekasi Raya. Fokus ASN & pelaku usaha lokal.",
+  "warna": "#f97316", "scrape_status": "manual", "last_updated": "2026-03-16T08:00:00+07:00"
+}
   ]
 }
