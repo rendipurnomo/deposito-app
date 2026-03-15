@@ -801,24 +801,6 @@ function Screener({
               paddingTop: isMobile ? 12 : 0,
             }}
           >
-            <div
-              style={{
-                fontSize: 12,
-                color: "var(--text-secondary)",
-                lineHeight: 1.65,
-              }}
-            >
-              <span style={{ color: "#2dce89", fontWeight: 600 }}>
-                ✓ Terjamin
-              </span>{" "}
-              — bunga ≤{lpsLimit}% p.a: pokok + bunga dijamin LPS jika bank
-              gagal bayar.{" "}
-              <span style={{ color: "#f7c600", fontWeight: 600 }}>
-                ⚠ Di atas LPS
-              </span>{" "}
-              — bunga &gt;{lpsLimit}% p.a: dana <em>tidak dijamin</em>. Risiko
-              lebih tinggi, imbal hasil lebih besar.
-            </div>
           </div>
         </div>
       </div>
