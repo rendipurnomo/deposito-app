@@ -861,6 +861,10 @@ useEffect(() => {
         <p style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 5, opacity: 0.5 }}>
           Data diperbarui otomatis setiap Senin · Bukan saran investasi · Selalu cek website resmi bank
         </p>
+        <p style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 5, opacity: 0.5 }}>
+          © {new Date().getFullYear()} DepositoPlus. All rights reserved.
+        </p>
+        <p style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 5, opacity: 0.5 }}>Developed by <a href="https://rendidev.netlify.app/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-primary)' }}>Rendi</a>.</p>
       </footer>
     </>
   )
